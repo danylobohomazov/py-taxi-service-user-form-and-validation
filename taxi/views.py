@@ -1,10 +1,11 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import DriverCreationForm, DriverLicenseUpdateForm, CarFrom
+from .forms import DriverCreationForm, DriverLicenseUpdateForm, CarForm
 from .models import Driver, Car, Manufacturer
 
 
@@ -72,7 +73,7 @@ class CarDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 class CarCreateView(LoginRequiredMixin, generic.CreateView):
-    form_class = CarFrom
+    form_class = CarForm
     template_name = "taxi/car_form.html"
     success_url = reverse_lazy("taxi:car-list")
 
@@ -99,7 +100,7 @@ class DriverDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 class DriverCreateView(LoginRequiredMixin, generic.CreateView):
-    model = Driver
+    model = get_user_model()
     form_class = DriverCreationForm
 
 
